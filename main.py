@@ -3,7 +3,6 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.types import (InlineQuery, FSInputFile,
-                           InputTextMessageContent,
                            InlineQueryResultCachedVoice)
 from aiogram.exceptions import TelegramBadRequest
 
@@ -26,9 +25,6 @@ FILES_MAP = {"Жоско грає": "contractova.ogg",
              "Покажи...": "show.ogg"}
 
 
-stadium = InputTextMessageContent(message_text="123")
-
-
 @dp.inline_query()
 async def inline_query_handler(inline_query: InlineQuery):
     while True:
@@ -45,8 +41,7 @@ async def inline_query_handler(inline_query: InlineQuery):
                                       is_personal=False,
                                       cache_time=1)
             return
-        except TelegramBadRequest as e:
-            print(e)
+        except TelegramBadRequest:
             for file in FILES_MAP:
                 file_path = FILES_MAP.get(file)
                 msg = await bot.send_voice(chat_id=5198857407,
